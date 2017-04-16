@@ -347,7 +347,33 @@ function Flatpickr(element, config) {
 		self.calendarContainer.tabIndex = -1;
 		self.numInputType = navigator.userAgent.indexOf("MSIE 9.0") > 0 ? "text" : "number";
 
-		if (!self.config.noCalendar) {
+		console.log(self.config.monthNum);
+
+		if (self.config.monthNum) {
+			fragment.appendChild(buildMonthNav());
+
+			console.log(self.config);
+
+			self.innerContainer = createElement("div", "flatpickr-innerContainer");
+
+			for (var i = 0; i < self.config.monthNum; i++) {
+				debugger;
+				var rContainer = createElement("div", "flatpickr-rContainer");
+				rContainer.appendChild(buildWeekdays());
+
+				var daysContainer = createElement("div", "flatpickr-days");
+				daysContainer.tabIndex = -1;
+
+				buildDays();
+				rContainer.appendChild(daysContainer);
+
+				self.innerContainer.appendChild(rContainer);
+			}
+
+			fragment.appendChild(self.innerContainer);
+		}
+
+		if (!self.config.noCalendar && !self.config.monthNum) {
 			fragment.appendChild(buildMonthNav());
 			self.innerContainer = createElement("div", "flatpickr-innerContainer");
 
@@ -474,6 +500,7 @@ function Flatpickr(element, config) {
 	}
 
 	function buildDays(delta) {
+
 		var firstOfMonth = (new Date(self.currentYear, self.currentMonth, 1).getDay() - self.l10n.firstDayOfWeek + 7) % 7,
 		    isRangeMode = self.config.mode === "range";
 
@@ -518,6 +545,8 @@ function Flatpickr(element, config) {
 
 		var dayContainer = createElement("div", "dayContainer");
 		dayContainer.appendChild(days);
+
+		debugger;
 
 		if (!self.config.animate || delta === undefined) clearNode(self.daysContainer);else {
 			while (self.daysContainer.childNodes.length > 1) {

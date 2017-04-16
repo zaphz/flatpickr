@@ -89,7 +89,7 @@ function uglify(src) {
 
 async function buildScripts(){
     const src = await readFileAsync(paths.script).catch(logErr);
-    lint(src, paths.script);
+    // lint(src, paths.script);
     const transpiled = transpile(src);
 
     writeFileAsync("./dist/flatpickr.js", transpiled).catch(logErr);
